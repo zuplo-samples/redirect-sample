@@ -1,0 +1,136 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My Zuplo API"
+  },
+  "paths": {
+    "/docs(.*)": {
+      "x-zuplo-path": {
+        "pathMode": "url-pattern"
+      },
+      "get": {
+        "summary": "Redirect docs to new location",
+        "description": "**Creates a new todo item** with the provided details. The todo will be assigned a unique ID automatically and can include a title, completion status, and user association. This is the primary endpoint for adding new tasks to the system.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTodo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Todo created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Todo"
+                },
+                "examples": {
+                  "new_todo": {
+                    "summary": "A newly created todo",
+                    "value": {
+                      "id": 4,
+                      "title": "Deploy application",
+                      "completed": false,
+                      "userId": 789
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          }
+        },
+        "operationId": "55ee860b-fe7e-4d66-a228-bb5320c3305d",
+        "x-zuplo-route": {
+          "corsPolicy": "none",
+          "handler": {
+            "export": "default",
+            "module": "$import(./modules/hello-world)",
+            "options": {}
+          }
+        },
+        "tags": [
+          "Todo"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Todo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The todo ID"
+          },
+          "title": {
+            "type": "string",
+            "description": "The todo title"
+          },
+          "completed": {
+            "type": "boolean",
+            "description": "Whether the todo is completed"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "The user ID who owns the todo"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "completed",
+          "userId"
+        ]
+      },
+      "CreateTodo": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The todo title"
+          },
+          "completed": {
+            "type": "boolean",
+            "description": "Whether the todo is completed",
+            "default": false
+          },
+          "userId": {
+            "type": "integer",
+            "description": "The user ID who owns the todo"
+          }
+        },
+        "required": [
+          "title",
+          "userId"
+        ]
+      },
+      "UpdateTodo": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The todo title"
+          },
+          "completed": {
+            "type": "boolean",
+            "description": "Whether the todo is completed"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "The user ID who owns the todo"
+          }
+        }
+      }
+    }
+  }
+}
